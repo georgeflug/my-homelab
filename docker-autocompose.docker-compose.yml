@@ -1,0 +1,16 @@
+version: "2"
+
+# see: https://github.com/Red5d/docker-autocompose
+
+# How to Use: Change the command below to the name of the docker container
+# that you need to read. Update the Stack to run the conversion.
+# View the docker-autocompose logs to see the output docker-compose.yml.
+
+services:
+  docker-autocompose:
+    image: red5d/docker-autocompose
+    container_name: docker-autocompose
+    restart: "no" # this is a run-once tool
+    command: ["gitea"] # change this to desired docker container name
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
