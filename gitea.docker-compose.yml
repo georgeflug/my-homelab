@@ -1,5 +1,10 @@
 version: "2"
 
+# prior to running this, run the following commands on the host:
+# sudo useradd git
+# sudo mkdir -p /data/compose/gitea/data /data/compose/gitea/config
+# sudo chown -R /data/compose/gitea git:git
+
 services:
   gitea:
     container_name: gitea
