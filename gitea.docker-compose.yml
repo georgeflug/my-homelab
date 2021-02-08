@@ -1,0 +1,21 @@
+version: "2"
+
+services:
+  gitea:
+    container_name: gitea
+    image: gitea/gitea:latest-rootless
+    restart: always
+    user: "4000"
+    environment:
+      - USER_UID=git
+      - USER_GID=git
+      - SSH_PORT=4022
+      - ROOT_URL=http://octoprint:4080/
+    ports:
+      - 4080:3000/tcp
+      - 4022:4022/tcp
+    volumes:
+      - /data/compose/gitea/data:/var/lib/gitea
+      - /data/compose/gitea/config:/etc/gitea
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
