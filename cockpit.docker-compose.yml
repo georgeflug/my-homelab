@@ -1,0 +1,12 @@
+version: "2"
+
+services:
+  cockpit:
+    image: markdegroot/cockpit-ubuntu:latest
+    container_name: cockpit
+    privileged: true
+    restart: always
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup
+    ports:
+      - "9090:9090"
