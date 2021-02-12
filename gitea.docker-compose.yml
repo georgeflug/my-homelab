@@ -21,3 +21,8 @@ services:
       - /data/gitea/config:/etc/gitea
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
+
+networks:
+  default:
+    external:
+      name: homelab-net
