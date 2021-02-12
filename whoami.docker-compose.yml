@@ -1,0 +1,11 @@
+version: "2"
+
+services:
+  whoami:
+    image: containous/whoami
+    container_name: whoami
+    restart: always
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup
+    ports:
+      - "9091:80"
