@@ -25,3 +25,7 @@ services:
       MYSQL_PASSWORD: 'npm'
     volumes:
       - ./data/mysql:/var/lib/mysql
+
+networks:
+  default:
+    name: homelab-net

@@ -9,3 +9,8 @@ services:
       - /sys/fs/cgroup:/sys/fs/cgroup
     ports:
       - "9091:80"
+
+networks:
+  default:
+    external:
+      name: homelab-net
