@@ -1,0 +1,43 @@
+version: '2'
+
+services:
+  nextcloud_db:
+    image: mariadb
+    container_name: nextcloud-mariadb
+    volumes:
+      - db:/var/lib/mysql
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - MYSQL_ROOT_PASSWORD=toor
+      - MYSQL_PASSWORD=mysql
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud
+    restart: unless-stopped
+
+  nextcloud:
+    image: nextcloud:latest
+    container_name: nextcloud-app
+    depends_on:
+      - nextcloud_db
+    ports:
+      - 5080:80/tcp
+      - 5443:443/tcp
+    volumes:
+      - nextcloud:/var/www/html
+      - ./app/config:/var/www/html/config
+      - ./app/custom_apps:/var/www/html/custom_apps
+      - ./app/data:/var/www/html/data
+      - ./app/themes:/var/www/html/themes
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - VIRTUAL_HOST=nextcloud.homelab.local
+    restart: unless-stopped
+
+networks:
+  default:
+    external:
+      name: homelab-net
+
+volumes:
+  nextcloud:
+  db:
