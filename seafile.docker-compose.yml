@@ -1,0 +1,43 @@
+version: '2.0'
+
+# Before launching this file, change the admin password below
+
+services:
+  seafile-db:
+    image: mariadb:10.5
+    container_name: seafile-mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=db_dev
+      - MYSQL_LOG_CONSOLE=true
+    volumes:
+      - /data/seafile/mysql-db:/var/lib/mysql
+
+  memcached:
+    image: memcached:1.5.6
+    container_name: memcached
+    entrypoint: memcached -m 256
+
+  seafile:
+    image: seafileltd/seafile-mc:latest
+    container_name: seafile
+    ports:
+      - "6080:80"
+    #     - "6443:443"
+    volumes:
+      - /data/seafile/file-data:/shared
+    environment:
+      - DB_HOST=seafile-db
+      - DB_ROOT_PASSWD=db_dev
+      - TIME_ZONE=US/Central  # set to your local time zone
+      - SEAFILE_ADMIN_EMAIL=georgeflug@gmail.com
+      - SEAFILE_ADMIN_PASSWORD=asecret
+      - SEAFILE_SERVER_LETSENCRYPT=false
+    #  - SEAFILE_SERVER_HOSTNAME=seafile.homelab.local # Specifies your host name if https is enabled.
+    depends_on:
+      - seafile-db
+      - memcached
+
+networks:
+  default:
+    external:
+      name: homelab-net
