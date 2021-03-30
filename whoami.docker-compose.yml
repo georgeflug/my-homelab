@@ -7,8 +7,8 @@ services:
     restart: always
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup
-    ports:
-      - "9091:80"
+    labels:
+      - "traefik.http.routers.whoami.rule=Host(`whoami.homelab.local`)"
 
 networks:
   default:
