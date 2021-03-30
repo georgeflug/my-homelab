@@ -8,8 +8,8 @@ services:
     restart: always
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup
-    ports:
-      - "9090:9090"
+    labels:
+      - "traefik.http.routers.cockpit.rule=Host(`cockpit.homelab.local`)"
 
 networks:
   default:

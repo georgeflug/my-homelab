@@ -1,6 +1,11 @@
 version: '2.0'
 
-# Before launching this file, change the admin password below
+# After launching this file, change the admin password
+# by shelling into the container and running 
+# seafile-server-latest/reset-admin.sh
+
+# After logging in to the web interface, change the
+# SERVICE_URL and FILE_SERVER_ROOT
 
 services:
   seafile-db:
@@ -20,9 +25,6 @@ services:
   seafile:
     image: seafileltd/seafile-mc:latest
     container_name: seafile
-    ports:
-      - "6080:80"
-    #     - "6443:443"
     volumes:
       - /data/seafile/file-data:/shared
     environment:
@@ -30,12 +32,15 @@ services:
       - DB_ROOT_PASSWD=db_dev
       - TIME_ZONE=US/Central  # set to your local time zone
       - SEAFILE_ADMIN_EMAIL=georgeflug@gmail.com
-      - SEAFILE_ADMIN_PASSWORD=asecret
+      - SEAFILE_ADMIN_PASSWORD=changeme
       - SEAFILE_SERVER_LETSENCRYPT=false
-    #  - SEAFILE_SERVER_HOSTNAME=seafile.homelab.local # Specifies your host name if https is enabled.
+      - SEAFILE_SERVER_HOSTNAME=seafile.homelab.local
     depends_on:
       - seafile-db
       - memcached
+    labels:
+      - "traefik.http.routers.seafile.rule=Host(`seafile.homelab.local`)"
+      - "traefik.http.services.seafile.loadbalancer.server.port=80"
 
 networks:
   default:
