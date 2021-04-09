@@ -16,11 +16,13 @@ services:
       - MYSQL_LOG_CONSOLE=true
     volumes:
       - /data/seafile/mysql-db:/var/lib/mysql
+    restart: unless-stopped
 
   memcached:
     image: memcached:1.5.6
     container_name: memcached
     entrypoint: memcached -m 256
+    restart: unless-stopped
 
   seafile:
     image: seafileltd/seafile-mc:latest
@@ -41,6 +43,7 @@ services:
     labels:
       - "traefik.http.routers.seafile.rule=Host(`seafile.homelab.local`)"
       - "traefik.http.services.seafile.loadbalancer.server.port=80"
+    restart: unless-stopped
 
 networks:
   default:

@@ -4,7 +4,7 @@ services:
   whoami:
     image: containous/whoami
     container_name: whoami
-    restart: always
+    restart: unless-stopped
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup
     labels:
